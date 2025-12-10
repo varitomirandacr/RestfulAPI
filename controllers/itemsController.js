@@ -53,6 +53,11 @@ function getAnswerByRoomCode(roomName, inputValue) {
   return { match: isMatch };
 }
 
+function getDummyAnswerByRoomCode(roomName, inputValue) {
+  // Dummy function that always returns true
+  return { match: true };
+}
+
 // Express route handler for checking room code
 const checkRoomCode = (req, res) => {
   const { roomName, inputValue } = req.body;
@@ -72,8 +77,24 @@ const checkRoomCode = (req, res) => {
   res.json(result);
 };
 
+// Express route handler for dummy room code check
+const checkDummyRoomCode = (req, res) => {
+  const { roomName, inputValue } = req.body;
+  
+  if (!roomName || inputValue === undefined) {
+    return res.status(400).json({ 
+      error: 'Missing required fields: roomName and inputValue are required' 
+    });
+  }
+  
+  const result = getDummyAnswerByRoomCode(roomName, inputValue);
+  res.json(result);
+};
+
 module.exports = {
   getAnswerByRoomCode,
+  getDummyAnswerByRoomCode,
   checkRoomCode,
+  checkDummyRoomCode,
 };
 
